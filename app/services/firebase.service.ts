@@ -8,6 +8,7 @@ const dialogs = require("ui/dialogs");
 @Injectable()
 export class FirebaseService {
   color = new BehaviorSubject<string>("");
+  fb: any;
 
   constructor(private ngzone: NgZone) {
     console.log("firebase.init begin");
@@ -42,11 +43,16 @@ export class FirebaseService {
   }
 
   add(text: string) {
-    return firebase.push(
-        "/test",
-        { "name": text, "date": 0 - Date.now() }
-      ).then(() => console.log("pushed"))
-       .catch(e => console.log("error", e))
+    firebase.push(
+      "/test",
+      { "name": text, "date": 0 - Date.now() }
+    ).then(() => console.log("pushed"))
+     .catch(e => console.log("error", e));
+
+  }
+
+  get(collection: string = "/test") {
+    firebase.getValue(collection).then(data => console.log(JSON.stringify(data)))
   }
 
   generatePushToken() {

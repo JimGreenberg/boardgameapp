@@ -16,6 +16,16 @@
     (tap)="fbs.generatePushToken()"
     [color]="fbs.color | async">
   </Button>
+  <Button
+    text=send
+    (tap)="fbs.add(color)"
+    [color]="fbs.color | async">
+  </Button>
+  <Button
+    text=get
+    (tap)="fbs.get()"
+    [color]="fbs.color | async">
+  </Button>
 </StackLayout>
 <div
   [ngStyle]="{'color': color,
