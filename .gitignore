@@ -1,0 +1,14 @@
+google-services.json
+GoogleService-Info.plist
+package.json
+package-lock.json
+tsconfig.json
+npm-debug.log
+app/**/*.js
+app/**/*.map
+hooks/
+lib/
+node_modules/
+platforms/
+tmp/
+typings/
