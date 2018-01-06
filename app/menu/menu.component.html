@@ -17,9 +17,14 @@
     [color]="fbs.color | async">
   </Button>
   <Button
-    text=send
-    (tap)="fbs.add(color)"
-    [color]="fbs.color | async">
+    text=set
+    (tap)="fbs.set('test', {'name': 'blue'})"
+    color="blue">
+  </Button>
+  <Button
+    text=update
+    (tap)="fbs.update('test', {'name': 'purple'})"
+    color="purple">
   </Button>
   <Button
     text=get

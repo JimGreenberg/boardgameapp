@@ -42,21 +42,23 @@ export class FirebaseService {
     this.ngzone.run(() => this.color.next(color));
   }
 
-  add(text: string) {
-    firebase.push(
-      "/test",
-      { "name": text, "date": 0 - Date.now() }
-    ).then(() => console.log("pushed"))
-     .catch(e => console.log("error", e));
-
+  set(location: string, payload: any) {
+    firebase.setValue(
+      "/test", payload
+    )
+  }
+  update(location: string, payload: any) {
+    firebase.update(
+      "/test", payload
+    )
   }
 
   get(collection: string = "/test") {
-    firebase.getValue(collection).then(data => console.log(JSON.stringify(data)))
+    return firebase.getValue(collection).then(data => {console.log(JSON.stringify(data)); return data;})
   }
 
-  generatePushToken() {
-    firebase.getCurrentPushToken().then((token: string) => {
+  generatePushToken(): Promise<any> {
+    return firebase.getCurrentPushToken().then((token: string) => {
       // may be null if not known yet
       console.log("Current push token: " + token);
     });
