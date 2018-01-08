@@ -6,7 +6,7 @@ export interface Room {
   metadata: GameMetadata;
   gameState: GameState;
   chatlog: Array<Chat>;
-  colorMap?: {[key: string]: string;}
+  colorMap?: {[key: string]: string;} //Player name: color hex code
 }
 
 export interface GameMetadata {

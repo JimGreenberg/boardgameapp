@@ -7,29 +7,16 @@
   <Label text="sweet label dude">
   </Label>
   <Button
-    [text]="color"
-    (tap)="buttonTap()"
-    [color]="color">
+    text="color1"
+    [background]="color1 || 'red'">
   </Button>
   <Button
-    [text]="fbs.color | async"
-    (tap)="fbs.generatePushToken()"
-    [color]="fbs.color | async">
+    text="color2"
+    [background]="color2 || 'blue'">
   </Button>
   <Button
-    text=set
-    (tap)="fbs.set('test', {'name': 'blue'})"
-    color="blue">
-  </Button>
-  <Button
-    text=update
-    (tap)="fbs.update('test', {'name': 'purple'})"
-    color="purple">
-  </Button>
-  <Button
-    text=get
-    (tap)="fbs.get()"
-    [color]="fbs.color | async">
+    [text]="btnTxt"
+    (tap)="buttonTap()">
   </Button>
 </StackLayout>
 <div

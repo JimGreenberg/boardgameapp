@@ -5,6 +5,7 @@ import { RouterExtensions } from 'nativescript-angular/router/router-extensions'
 import { Subscription } from 'rxjs/Subscription';
 
 import { FirebaseService } from "../services/firebase.service";
+import { RoomService } from "../services/room.service";
 
 
 @Component({
@@ -12,26 +13,40 @@ import { FirebaseService } from "../services/firebase.service";
   templateUrl: "menu/menu.component.html",
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  public color: string;
-  public thing: boolean;
+  public color1: string;
+  public color2: string;
+  public btnTxt: string;
+  public skipNext: boolean = false;
 
   private subscription: Subscription;
 
-  constructor(private fbs: FirebaseService) { }
+  constructor(private fbs: FirebaseService,
+              private rs: RoomService) { }
 
   buttonTap() {
-    this.thing = !this.thing;
-    this.color = this.thing ? "purple" : "yellow";
-    this.fbs.generatePushToken();
+    if (this.skipNext) {
+      setTimeout(() => this.skipNext = false, 1000)
+      return;
+    }
+    this.color1 = "#" + Math.random().toString(16).slice(2, 8)
+    this.color2 = "#" + Math.random().toString(16).slice(2, 8)
+    if (this.checkSimilarColor(this.color1, this.color2)) {
+      this.btnTxt = "too similar"
+      this.skipNext = true;
+    } else {
+      this.btnTxt = "ok"
+    }
   }
 
-  ngOnInit() {
-    this.subscription = this.fbs.color.subscribe(color => this.color = color);
-    this.color = "red";
-    this.thing = true;
+  checkSimilarColor(color1: string, color2: string): boolean {
+    // returns true if colors are similar (bad)
+    return [
+      Math.abs(parseInt(color1.slice(1, 3), 16) - parseInt(color2.slice(1, 3), 16)),
+      Math.abs(parseInt(color1.slice(3, 5), 16) - parseInt(color2.slice(3, 5), 16)),
+      Math.abs(parseInt(color1.slice(5, 7), 16) - parseInt(color2.slice(5, 7), 16))
+    ].every(v => v < 50);
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  ngOnInit() {}
+  ngOnDestroy() {}
 }

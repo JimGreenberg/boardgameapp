@@ -42,19 +42,20 @@ export class FirebaseService {
     this.ngzone.run(() => this.color.next(color));
   }
 
-  set(location: string, payload: any) {
-    firebase.setValue(
-      "/test", payload
-    )
-  }
-  update(location: string, payload: any) {
-    firebase.update(
-      "/test", payload
-    )
+  set(collection: string, payload: any): Promise<any> {
+    return firebase.setValue(collection, payload);
   }
 
-  get(collection: string = "/test") {
+  update(collection: string, payload: any): Promise<any> {
+    return firebase.update(collection, payload);
+  }
+
+  get(collection: string = "/test"): Promise<any> {
     return firebase.getValue(collection).then(data => {console.log(JSON.stringify(data)); return data;})
+  }
+
+  remove(collection: string = "/test"): Promise<any> {
+    return firebase.remove(collection);
   }
 
   generatePushToken(): Promise<any> {

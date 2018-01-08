@@ -4,19 +4,19 @@ import { FirebaseService } from "./firebase.service";
 
 import { Player } from "../base-interfaces";
 
-Injectable()
+@Injectable()
 export class AppService {
   user: Player;
   color: string;
 
   constructor(private fbs: FirebaseService) {
     let token: string;
-    this.fbs.generatePushToken().then(gendToken => token = gendToken);
+    this.fbs.generatePushToken().then(generatedToken => token = generatedToken);
 
     this.user = { name: `Player ${("0000" + Math.floor(Math.random() * 10000)).slice(-4)}`,
                   pushToken: token
                 }
-    this.color = "#" + Math.random().toString(16).slice(2, 8)
+    this.color = "#" + Math.random().toString(16).slice(2, 8);
   }
 
   changeName(newName: string) {
@@ -25,19 +25,20 @@ export class AppService {
   }
 
   setColor(newColor: string) {
-    while (!this.checkColor(newColor)) {
+    // we don't want colors too light or too dark
+    while (this.checkSimilarColor(newColor, "#ffffff") ||
+           this.checkSimilarColor(newColor, "#000000")) {
       throw "Error changing color: new color too dark or too light";
     }
     this.color = newColor
   }
 
-  // we don't want colors too light or too dark
-  // returns true if color is OK
-  checkColor(color: string): boolean {
+  checkSimilarColor(color1: string, color2: string): boolean {
+    // returns true if colors are similar (bad)
     return [
-      parseInt(color.slice(1, 3), 16),
-      parseInt(color.slice(3, 5), 16),
-      parseInt(color.slice(5, 7), 16)
-    ].every(v => v > 50 && v < 200);
+      Math.abs(parseInt(color1.slice(1, 3), 16) - parseInt(color2.slice(1, 3), 16)),
+      Math.abs(parseInt(color1.slice(3, 5), 16) - parseInt(color2.slice(3, 5), 16)),
+      Math.abs(parseInt(color1.slice(5, 7), 16) - parseInt(color2.slice(5, 7), 16))
+    ].every(v => v < 50);
   }
 }

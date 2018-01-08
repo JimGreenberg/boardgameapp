@@ -8,6 +8,8 @@ import { AppComponent } from "./app.component";
 import { MenuModule } from "./menu/menu.module";
 
 import { FirebaseService } from "./services/firebase.service";
+import { AppService } from "./services/app.service";
+import { RoomService } from "./services/room.service";
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -30,7 +32,9 @@ import { FirebaseService } from "./services/firebase.service";
         AppComponent,
     ],
     providers: [
-      FirebaseService
+      FirebaseService,
+      AppService,
+      RoomService
     ],
     schemas: [
         NO_ERRORS_SCHEMA
